@@ -41,7 +41,24 @@ def relationship_status(from_member, to_member, social_graph):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    
+    if to_member not in social_graph:
+        if to_member in social_graph[from_member]["following"]:
+            return "follower"
+        else:
+            return "no relationship"
+        
+    elif to_member in social_graph[from_member]["following"]:
+        if from_member in social_graph[to_member]["following"]:
+            return "friends"
+        else:
+            return "follower"
+        
+    else:
+        if from_member in social_graph[to_member]["following"]:
+            return "followed by"
+        else:
+            return "no relationship"
 
 
 def tic_tac_toe(board):
@@ -70,8 +87,108 @@ def tic_tac_toe(board):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
-
+    # diagonal 1 is up-left to down-right
+    # diagonal 2 is down-left to up-right
+    
+    by = len(board)
+    horz = [x for x in board]
+    vert = [x for x in zip(*board)]
+    diagonal1 = [board[i][i] for i in range(by)]
+    diagonal2 = [board[by-1-i][i] for i in range(by)]
+      
+    if by == 3:
+        if ['O','O','O'] in horz:
+            return 'O'
+        elif ['X','X','X'] in horz:
+            return 'X'
+        else:
+            if ('O','O','O') in vert:
+                return 'O'
+            elif ('X','X','X') in vert:
+                return 'X'
+            else:
+                if diagonal1 == ['O','O','O']:
+                    return 'O'
+                elif diagonal1 == ['X','X','X']:
+                    return 'X'
+                else:
+                    if diagonal2 == ['O','O','O']:
+                        return 'O'
+                    elif diagonal2 == ['X','X','X']:
+                        return 'X'
+                    else:
+                        return 'NO WINNER'                  
+   
+    elif by == 4:
+        if ['O','O','O','O'] in horz:
+            return 'O'
+        elif ['X','X','X','X'] in horz:
+            return 'X'
+        else:
+            if ('O','O','O','O') in vert:
+                return 'O'
+            elif ('X','X','X','X') in vert:
+                return 'X'
+            else:
+                if diagonal1 == ['O','O','O','O']:
+                    return 'O'
+                elif diagonal1 == ['X','X','X','X']:
+                    return 'X'
+                else:
+                    if diagonal2 == ['O','O','O','O']:
+                        return 'O'
+                    elif diagonal2 == ['X','X','X','X']:
+                        return 'X'
+                    else:
+                        return 'NO WINNER'
+    
+    elif by == 5:
+        if ['O','O','O','O','O'] in horz:
+            return 'O'
+        elif ['X','X','X','X','X'] in horz:
+            return 'X'
+        else:
+            if ('O','O','O','O','O') in vert:
+                return 'O'
+            elif ('X','X','X','X','X') in vert:
+                return 'X'
+            else:
+                if diagonal1 == ['O','O','O','O','O']:
+                    return 'O'
+                elif diagonal1 == ['X','X','X','X','X']:
+                    return 'X'
+                else:
+                    if diagonal2 == ['O','O','O','O','O']:
+                        return 'O'
+                    elif diagonal2 == ['X','X','X','X','X']:
+                        return 'X'
+                    else:
+                        return 'NO WINNER'
+    
+    elif by == 6:
+        if ['O','O','O','O','O','O'] in horz:
+            return 'O'
+        elif ['X','X','X','X','X','X'] in horz:
+            return 'X'
+        else:
+            if ('O','O','O','O','O','O') in vert:
+                return 'O'
+            elif ('X','X','X','X','X','X') in vert:
+                return 'X'
+            else:
+                if diagonal1 == ['O','O','O','O','O','O']:
+                    return 'O'
+                elif diagonal1 == ['X','X','X','X','X','X']:
+                    return 'X'
+                else:
+                    if diagonal2 == ['O','O','O','O','O','O']:
+                        return 'O'
+                    elif diagonal2 == ['X','X','X','X','X','X']:
+                        return 'X'
+                    else:
+                        return 'NO WINNER'
+    
+    
 def eta(first_stop, second_stop, route_map):
     '''ETA. 
     25 points.
@@ -103,4 +220,33 @@ def eta(first_stop, second_stop, route_map):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    
+    arrive = 0
+    leave = 0
+    minutes = 0
+    
+    legs = len(route_map)
+    stop = list(route_map.keys())
+    
+    for x in range(legs):
+        if first_stop == stop[x][0]:
+            arrive = x
+            
+    for x in range(legs):
+        if second_stop == stop[x][1]:
+            leave = x
+    
+    if arrive <= leave:
+        for y in range(legs):
+            if y >= arrive and y <= leave:
+                if (arrive < leave or arrive == leave):
+                    new_dict = route_map[stop[y]]
+                    minutes += new_dict['travel_time_mins']
+                    
+    if arrive > leave:
+        for z in range(legs):
+            if z <= leave or z >= arrive:
+                new_dict = route_map[stop[z]]
+                minutes += new_dict['travel_time_mins']
+                
+    return(minutes)
